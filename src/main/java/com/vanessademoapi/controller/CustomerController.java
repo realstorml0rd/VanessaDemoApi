@@ -23,8 +23,13 @@ public class CustomerController {
     }
 
     @GetMapping("/customer/{firstName}")
-    public List findByTitle(@PathVariable String firstName) {
-        return customerRepository.findByFirstName(firstName);
+    public List<Customer> findByFirstName(@PathVariable String firstName) {
+        List<Customer> results = customerRepository.findByFirstName(firstName);
+        if (results.isEmpty()) {
+            throw new CustomerNotFoundException("Customer not found in database.");
+        } else {
+            return results;
+        }
     }
 
     @GetMapping("/{id}")
